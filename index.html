@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>StyleAffiliate</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f7f7f7;
+  color:#222;
+  overflow-x:hidden;
+}
+
+img{
+  max-width:100%;
+  display:block;
+}
+
+/* NAVBAR */
+
+.navbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+
+  background:#fff;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:16px;
+
+  padding:14px 20px;
+
+  border-bottom:1px solid #ececec;
+}
+
+/* LOGO */
+
+.logo-box{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.logo-image{
+  width:56px;
+  height:56px;
+  object-fit:contain;
+  border-radius:14px;
+}
+
+.logo-text{
+  font-size:28px;
+  font-weight:800;
+
+  background:linear-gradient(
+    90deg,
+    #ff3cac,
+    #ff6ec7,
+    #fcb045,
+    #ffd700
+  );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  white-space:nowrap;
+}
+
+/* SEARCH */
+
+.search-box{
+  flex:1;
+  max-width:420px;
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  background:#f3f3f3;
+
+  padding:6px;
+
+  border-radius:14px;
+}
+
+.search-icon{
+  width:44px;
+  height:44px;
+  min-width:44px;
+
+  border:none;
+  border-radius:12px;
+
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  color:white;
+
+  background:linear-gradient(
+    135deg,
+    #ff3cac,
+    #ffb700
+  );
+}
+
+.search-input{
+  width:100%;
+  border:none;
+  background:transparent;
+  padding:10px;
+  font-size:15px;
+}
+
+.search-input:focus{
+  outline:none;
+}
+
+/* CONTAINER */
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:22px;
+}
+
+/* PRODUCT GRID */
+
+.product-grid{
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(260px,1fr));
+
+  gap:20px;
+}
+
+/* CARD */
+
+.product-card{
+  background:white;
+  border-radius:18px;
+  overflow:hidden;
+
+  border:1px solid #ececec;
+
+  transition:0.25s;
+
+  display:flex;
+  flex-direction:column;
+}
+
+.product-card:hover{
+  transform:translateY(-4px);
+
+  box-shadow:
+  0 10px 22px rgba(0,0,0,0.08);
+}
+
+.product-image{
+  width:100%;
+  height:240px;
+  object-fit:cover;
+  cursor:pointer;
+}
+
+.product-body{
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  flex:1;
+}
+
+.product-title{
+  font-size:20px;
+  margin-bottom:8px;
+}
+
+.product-price{
+  color:#27ae60;
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.product-category{
+  font-size:14px;
+  color:#777;
+  margin-bottom:10px;
+}
+
+.product-description{
+  font-size:14px;
+  color:#555;
+  line-height:1.6;
+  margin-bottom:18px;
+  flex:1;
+}
+
+/* BUTTONS */
+
+.affiliate-links{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.affiliate-btn{
+  text-decoration:none;
+  color:white;
+
+  text-align:center;
+
+  padding:12px;
+  border-radius:12px;
+
+  font-size:14px;
+  font-weight:600;
+
+  background:linear-gradient(
+    135deg,
+    #ff3cac,
+    #ffb700
+  );
+}
+
+/* MESSAGE */
+
+.message-box{
+  text-align:center;
+  padding:50px 20px;
+  color:#666;
+  font-size:18px;
+}
+
+.hidden{
+  display:none;
+}
+
+/* IMAGE POPUP */
+
+.image-popup{
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,0.92);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  padding:20px;
+
+  opacity:0;
+  visibility:hidden;
+
+  transition:0.25s;
+
+  z-index:9999;
+}
+
+.image-popup.active{
+  opacity:1;
+  visibility:visible;
+}
+
+.popup-image{
+  max-width:95%;
+  max-height:90vh;
+
+  border-radius:14px;
+
+  object-fit:contain;
+}
+
+.close-popup{
+  position:absolute;
+  top:18px;
+  right:22px;
+
+  width:44px;
+  height:44px;
+
+  border:none;
+  border-radius:50%;
+
+  cursor:pointer;
+
+  font-size:24px;
+  color:white;
+
+  background:rgba(255,255,255,0.15);
+}
+
+/* TABLET */
+
+@media(max-width:900px){
+
+  .search-box{
+    max-width:320px;
+  }
+
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+  .navbar{
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+
+    padding:12px;
+  }
+
+  .logo-box{
+    flex-shrink:0;
+  }
+
+  /* MOBILE PE TEXT HIDE */
+
+  .logo-text{
+    display:none;
+  }
+
+  .logo-image{
+    width:48px;
+    height:48px;
+  }
+
+  .search-box{
+    width:100%;
+    max-width:none;
+    flex:1;
+  }
+
+  .container{
+    padding:16px;
+  }
+
+  .product-grid{
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+
+  .product-image{
+    height:220px;
+  }
+
+}
+
+/* SMALL MOBILE */
+
+@media(max-width:380px){
+
+  .logo-image{
+    width:44px;
+    height:44px;
+  }
+
+  .search-icon{
+    width:40px;
+    height:40px;
+    min-width:40px;
+  }
+
+  .search-input{
+    font-size:14px;
+    padding:8px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+
+  <div class="logo-box">
+
+    <img
+      src="ChatGPT Image May 18, 2026, 12_49_30 PM.png"
+      alt="StyleAffiliate Logo"
+      class="logo-image"
+    >
+
+    <div class="logo-text">
+      StyleAffiliate
+    </div>
+
+  </div>
+
+  <div class="search-box">
+
+    <button
+      class="search-icon"
+      id="searchToggle"
+    >
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z"
+        />
+
+      </svg>
+
+    </button>
+
+    <input
+      type="search"
+      id="searchInput"
+      class="search-input"
+      placeholder="Search fashion products..."
+    >
+
+  </div>
+
+</header>
+
+<main class="container">
+
+  <section
+    id="productGrid"
+    class="product-grid"
+  ></section>
+
+  <p
+    id="messageBox"
+    class="message-box hidden"
+  ></p>
+
+</main>
+
+<!-- IMAGE POPUP -->
+
+<div
+  class="image-popup"
+  id="imagePopup"
+>
+
+  <button
+    class="close-popup"
+    id="closePopup"
+  >
+    ×
+  </button>
+
+  <img
+    src=""
+    class="popup-image"
+    id="popupImage"
+    alt="Preview"
+  >
+
+</div>
+
+<script>
+
+const products = [
+
+  {
+    id:1,
+    title:"Classic White T-Shirt",
+    price:"₹499",
+    description:"Comfortable cotton tee for everyday wear.",
+    category:"T-Shirts",
+
+    image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1200&auto=format&fit=crop",
+
+    affiliateLinks:[
+      {
+        name:"Buy on Amazon",
+        url:"https://amazon.in"
+      },
+
+      {
+        name:"Buy on Flipkart",
+        url:"https://flipkart.com"
+      },
+
+      {
+        name:"Buy on Myntra",
+        url:"https://myntra.com"
+      }
+    ]
+  },
+
+  {
+    id:2,
+    title:"Blue Denim Jeans",
+    price:"₹1299",
+    description:"Slim fit jeans with stretch fabric.",
+    category:"Jeans",
+
+    image:"https://images.unsplash.com/photo-1542272604-787c3835535d?q=80&w=1200&auto=format&fit=crop",
+
+    affiliateLinks:[
+      {
+        name:"Buy on Amazon",
+        url:"https://amazon.in"
+      },
+
+      {
+        name:"Buy on Flipkart",
+        url:"https://flipkart.com"
+      }
+    ]
+  },
+
+  {
+    id:3,
+    title:"Black Hoodie",
+    price:"₹999",
+    description:"Warm and stylish hoodie for winter season.",
+    category:"Hoodies",
+
+    image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=1200&auto=format&fit=crop",
+
+    affiliateLinks:[
+      {
+        name:"Buy on Amazon",
+        url:"https://amazon.in"
+      },
+
+      {
+        name:"Buy on Myntra",
+        url:"https://myntra.com"
+      }
+    ]
+  }
+
+];
+
+const productGrid =
+document.getElementById("productGrid");
+
+const messageBox =
+document.getElementById("messageBox");
+
+const searchInput =
+document.getElementById("searchInput");
+
+const searchToggle =
+document.getElementById("searchToggle");
+
+const imagePopup =
+document.getElementById("imagePopup");
+
+const popupImage =
+document.getElementById("popupImage");
+
+const closePopup =
+document.getElementById("closePopup");
+
+/* SEARCH BUTTON */
+
+searchToggle.addEventListener(
+  "click",
+  function(){
+    searchInput.focus();
+  }
+);
+
+/* PRODUCT CARD */
+
+function createProductCard(product){
+
+  const card =
+  document.createElement("article");
+
+  card.className =
+  "product-card";
+
+  let linksHTML = "";
+
+  product.affiliateLinks.forEach(
+    function(link){
+
+      linksHTML += `
+
+      <a
+        class="affiliate-btn"
+        href="${link.url}"
+        target="_blank"
+      >
+        ${link.name}
+      </a>
+
+      `;
+    }
+  );
+
+  card.innerHTML = `
+
+    <img
+      class="product-image"
+      src="${product.image}"
+      alt="${product.title}"
+      loading="lazy"
+    >
+
+    <div class="product-body">
+
+      <h2 class="product-title">
+        ${product.title}
+      </h2>
+
+      <p class="product-price">
+        ${product.price}
+      </p>
+
+      <p class="product-category">
+        Category: ${product.category}
+      </p>
+
+      <p class="product-description">
+        ${product.description}
+      </p>
+
+      <div class="affiliate-links">
+        ${linksHTML}
+      </div>
+
+    </div>
+
+  `;
+
+  /* IMAGE POPUP */
+
+  const image =
+  card.querySelector(".product-image");
+
+  image.addEventListener(
+    "click",
+    function(){
+
+      popupImage.src =
+      product.image;
+
+      imagePopup.classList.add(
+        "active"
+      );
+
+    }
+  );
+
+  return card;
+}
+
+/* RENDER */
+
+function renderProducts(list){
+
+  productGrid.innerHTML = "";
+
+  if(list.length === 0){
+
+    messageBox.textContent =
+    "No products found";
+
+    messageBox.classList.remove(
+      "hidden"
+    );
+
+    return;
+  }
+
+  messageBox.classList.add(
+    "hidden"
+  );
+
+  list.forEach(function(product){
+
+    productGrid.appendChild(
+      createProductCard(product)
+    );
+
+  });
+
+}
+
+/* SEARCH */
+
+function filterProducts(){
+
+  const query =
+  searchInput.value
+  .trim()
+  .toLowerCase();
+
+  const filtered =
+  products.filter(function(product){
+
+    return(
+
+      product.title
+      .toLowerCase()
+      .includes(query)
+
+      ||
+
+      product.category
+      .toLowerCase()
+      .includes(query)
+
+    );
+
+  });
+
+  renderProducts(filtered);
+}
+
+/* CLOSE POPUP */
+
+closePopup.addEventListener(
+  "click",
+  function(){
+
+    imagePopup.classList.remove(
+      "active"
+    );
+
+  }
+);
+
+imagePopup.addEventListener(
+  "click",
+  function(e){
+
+    if(e.target === imagePopup){
+
+      imagePopup.classList.remove(
+        "active"
+      );
+
+    }
+
+  }
+);
+
+/* START */
+
+renderProducts(products);
+
+searchInput.addEventListener(
+  "input",
+  filterProducts
+);
+
+</script>
+
+</body>
+</html>
